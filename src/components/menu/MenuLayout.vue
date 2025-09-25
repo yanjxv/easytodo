@@ -1,7 +1,27 @@
 <template>
   <div>
     <input type="text" name="" id="" placeholder="搜索" />
-    <card-item style="width: 200px" />
+    <!-- 添加类型和点击事件 -->
+    <div class="todo-card-layout">
+      <card-item
+        class="todo-item item-left"
+        :card-type="1"
+        :is-selected="currentCard === 1"
+        @click="onClickCard(1)"
+      />
+      <card-item
+        class="todo-item"
+        :card-type="2"
+        :is-selected="currentCard === 2"
+        @click="onClickCard(2)"
+      />
+    </div>
+    <card-item
+      class="all-card"
+      :card-type="3"
+      :is-selected="currentCard === 3"
+      @click="onClickCard(3)"
+    />
   </div>
 </template>
 <script>
@@ -12,13 +32,37 @@ export default {
   components: {
     CardItem,
   },
+  data() {
+    return {
+      currentCard: 1,
+    }
+  },
+  methods: {
+    onClickCard(type) {
+      this.currentCard = type
+    },
+  },
 }
 </script>
-<style scoped>
+<style scoped lang="scss">
 input {
   width: 100%;
   height: 30px;
-  /* 设置为块级元素确保输入框下方的 CardItem 组件会换行显示在下一行 */
+  // 设置为块级元素确保输入框下方的 CardItem 组件会换行显示在下一行
   display: block;
+}
+.todo-card-layout {
+  display: flex;
+  margin-top: 8px;
+  .todo-item {
+    flex: 1;
+  }
+  .item-left {
+    margin-right: 8px;
+  }
+}
+.all-card {
+  margin-top: 8px;
+  width: 100%;
 }
 </style>
