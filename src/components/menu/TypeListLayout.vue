@@ -2,12 +2,14 @@
   <div class="type-layout" ref="listLayout">
     <div class="indicator-item">
       <h3>我的列表</h3>
+      <!-- 当拖拽到顶部位置时显示的指示器 -->
       <div class="indicator" v-show="overIndex === -1">
         <div class="indicator-circle"></div>
         <div class="indicator-line"></div>
       </div>
     </div>
     <div ref="menuList">
+      <!-- 使用 TransitionGroup 实现列表项的动画效果 -->
       <TransitionGroup name="list">
         <div v-for="(item, index) in list" :key="item.id" :class="{'indicator-item': isShowIndicator(index)}" ref="items">
           <type-item :name="item.name" :count="item.count"
@@ -20,6 +22,7 @@
                      @dragenter.prevent="onDragEnter($event, item, index)"
                      @dragleave="onDragLeave($event, index)"
                      @dragend="onDragEnd($event, index)" />
+           <!-- 底部指示器 -->
           <div class="indicator bottom-indicator">
             <div class="indicator-circle"></div>
             <div class="indicator-line"></div>
@@ -38,6 +41,7 @@ const MENU_ITEM_HEIGHT = 36
 export default {
   name: "TypeListLayout",
   props: {
+    // 默认选中的项目ID
     indexId: {
       type: Number,
       default: -1
@@ -125,6 +129,7 @@ export default {
       if (this.overIndex === -2) {
         return
       }
+      // 执行列表项重新排序
       // 要移动的item
       const moveIndex = index
       // 要插入的位置
@@ -145,6 +150,7 @@ export default {
       // this.isDragging = false
       // console.log('leave---x', index)
     },
+    // 拖拽过程中持续触发
     onDrag(ev) {
       let { clientX, clientY } = ev
       if (clientX === 0 && clientY === 0) {
