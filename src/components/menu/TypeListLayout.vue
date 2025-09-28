@@ -32,6 +32,9 @@
 <script>
 import TypeItem from "@/components/menu/TypeItem.vue";
 
+// 这里和.menu-item-layout的高度保持同步
+const MENU_ITEM_HEIGHT = 36
+
 export default {
   name: "TypeListLayout",
   props: {
