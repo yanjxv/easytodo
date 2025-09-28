@@ -1,54 +1,67 @@
 <template>
   <div class="menu-layout">
-
+    <!--  todo: 怎么做一个聚焦后、border变大的特效、并且保证内容位置不变  -->
     <div class="input-wrapper">
-      <input type="text" placeholder="搜索" v-model="searchText">
-      <img src="src/assets/svg/ic_search.svg" alt="" class="input-search">
+      <input type="text" placeholder="搜索" v-model="searchText" />
+      <img src="src/assets/svg/ic_search.svg" alt="" class="input-search" />
       <div class="input-close-wrapper" v-show="searchText.length > 0" @click="clearSearch">
-        <img src="src/assets/svg/ic_search_close.svg" alt="" class="input-close">
+        <img src="src/assets/svg/ic_search_close.svg" alt="" class="input-close" />
       </div>
-
     </div>
-
-    
     <div class="todo-card-layout">
-      <card-item class="todo-item item-left" :card-type="1" :is-selected="currentCard=== 1"
-                 @click="onClickCard(1)" />
-      <card-item class="todo-item" :card-type="2" :is-selected="currentCard=== 2"
-                 @click="onClickCard(2)" />
+      <card-item
+        class="todo-item item-left"
+        :card-type="1"
+        :is-selected="currentCard === 1"
+        @click="onClickCard(1)"
+      />
+      <card-item
+        class="todo-item"
+        :card-type="2"
+        :is-selected="currentCard === 2"
+        @click="onClickCard(2)"
+      />
     </div>
-    <card-item class="all-card" :card-type="3" :is-selected="currentCard=== 3"
-               @click="onClickCard(3)" />
+    <card-item
+      class="all-card"
+      :card-type="3"
+      :is-selected="currentCard === 3"
+      @click="onClickCard(3)"
+    />
     <type-list-layout />
     <div class="bottom-add bottom-divider">
       <div class="add"></div>
       <span @click="showCreateTypeDialog = true">添加列表</span>
     </div>
-    <el-dialog v-model="showCreateTypeDialog"
-    width="480px"
-    :show-close="false"
-    align-center>
-      <type-dialog-layout @close="onDialogClosed"/>
+    <el-dialog
+      v-model="showCreateTypeDialog"
+      :close-on-click-modal="false"
+      width="480px"
+      @closed="onDialogAnimationEnd"
+      :show-close="false"
+      align-center
+    >
+      <type-dialog-layout @close="onDialogClosed" ref="dialogContent" />
     </el-dialog>
   </div>
 </template>
 <script>
-import CardItem from "@/components/menu/CardItem.vue";
-import TypeListLayout from "@/components/menu/TypeListLayout.vue";
-import TypeDialogLayout from "@/components/menu/TypeDialogLayout.vue";
+import CardItem from '@/components/menu/CardItem.vue'
+import TypeListLayout from '@/components/menu/TypeListLayout.vue'
+import TypeDialogLayout from '@/components/menu/TypeDialogLayout.vue'
 
 export default {
-  name: "MenuLayout",
+  name: 'MenuLayout',
   components: {
     CardItem,
     TypeListLayout,
-    TypeDialogLayout,
+    TypeDialogLayout
   },
   data() {
     return {
       currentCard: 1,
       searchText: '',
-      showCreateTypeDialog: false,
+      showCreateTypeDialog: false
     }
   },
   methods: {
@@ -65,6 +78,9 @@ export default {
       } else {
         console.log('----close dialog')
       }
+    },
+    onDialogAnimationEnd() {
+      this.$refs.dialogContent.reset()
     }
   }
 }
@@ -74,7 +90,8 @@ export default {
   display: flex;
   flex-direction: column;
 
-  .input-wrapper { 
+  .input-wrapper {
+    position: relative;
 
     input {
       width: 100%;
@@ -88,7 +105,9 @@ export default {
       background-size: 12px 12px;
       color: var(--todo-black1);
     }
-    input:focus, :hover {
+
+    input:focus,
+    :hover {
       border-color: #74a2e2;
     }
 
@@ -116,6 +135,7 @@ export default {
       }
     }
   }
+
   input::placeholder {
     color: var(--todo-placeholder-color);
   }

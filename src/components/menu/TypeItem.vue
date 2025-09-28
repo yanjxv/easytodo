@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="circle">
-      <img src="src/assets/svg/ic_menu.svg" alt="">
+      <img src="../../assets/svg/ic_type_white0.svg" alt="" />
     </div>
     <span class="name">{{ name }}</span>
     <span class="count">{{ count }}</span>
@@ -9,7 +9,7 @@
 </template>
 <script>
 export default {
-  name: "TypeItem",
+  name: 'TypeItem',
   props: {
     name: {
       type: String,
@@ -22,5 +22,4 @@ export default {
   }
 }
 </script>
-<style scoped lang="scss">
-</style>
+<style scoped lang="scss"></style>
