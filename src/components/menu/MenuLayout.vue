@@ -2,7 +2,7 @@
   <div class="menu-layout">
 
     <div class="input-wrapper">
-      <input type="text" name="" id="" placeholder="搜索">
+      <input type="text" placeholder="搜索" v-model="searchText">
       <img src="src/assets/svg/ic_search.svg" alt="" class="input-search">
       <div class="input-close-wrapper" v-show="searchText.length > 0" @click="clearSearch">
         <img src="src/assets/svg/ic_search_close.svg" alt="" class="input-close">
@@ -28,7 +28,7 @@
     width="480px"
     :show-close="false"
     align-center>
-      <type-dialog-layout/>
+      <type-dialog-layout @close="onDialogClosed"/>
     </el-dialog>
   </div>
 </template>
@@ -57,6 +57,14 @@ export default {
     },
     clearSearch() {
       this.searchText = ''
+    },
+    onDialogClosed(res) {
+      this.showCreateTypeDialog = false
+      if (res) {
+        console.log('----submit', res)
+      } else {
+        console.log('----close dialog')
+      }
     }
   }
 }
