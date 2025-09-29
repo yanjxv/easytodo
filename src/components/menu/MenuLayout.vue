@@ -28,7 +28,7 @@
       :is-selected="currentCard === 3"
       @click="onClickCard(3)"
     />
-    <type-list-layout />
+    <type-list-layout ref="typeList" />
     <div class="bottom-add bottom-divider">
       <div class="add"></div>
       <span @click="showCreateTypeDialog = true">添加列表</span>
@@ -49,6 +49,7 @@
 import CardItem from '@/components/menu/CardItem.vue'
 import TypeListLayout from '@/components/menu/TypeListLayout.vue'
 import TypeDialogLayout from '@/components/menu/TypeDialogLayout.vue'
+import { ACTION_CREATE_TYPE } from '@/store/modules/type'
 
 export default {
   name: 'MenuLayout',
@@ -75,6 +76,16 @@ export default {
       this.showCreateTypeDialog = false
       if (res) {
         console.log('----submit', res)
+        this.$store
+          .dispatch(ACTION_CREATE_TYPE, res)
+          .then((typeInfo) => {
+            console.log('---add type', typeInfo)
+            this.$refs.typeList.addType(typeInfo)
+          })
+          .catch((err) => {
+            console.log(err)
+          })
+        console.log('-----id:' + this.$store.getters.incrementId)
       } else {
         console.log('----close dialog')
       }

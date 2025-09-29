@@ -46,6 +46,7 @@
 <script>
 import TypeItem from '@/components/menu/TypeItem.vue'
 import { TYPE_COLOR_LIST } from '@/components/menu/TypeDialogLayout.vue'
+import { MUTATION_SET_INCREMENT_ID } from '@/store/modules/type'
 
 // 这里和.menu-item-layout的高度保持同步
 const MENU_ITEM_HEIGHT = 36
@@ -72,15 +73,6 @@ export default {
         { colorIndex: 1, svgIndex: 2, name: 'name5', count: 4, id: 5 },
         { colorIndex: 1, svgIndex: 12, name: 'name6', count: 4, id: 6 },
         { colorIndex: 10, svgIndex: 22, name: 'xxx', count: 4, id: 7 }
-        // { color: 1, name: 'name4', count: 4, id: 8 },
-        // { color: 1, name: 'name4', count: 4, id: 9 },
-        // { color: 1, name: 'name4', count: 4, id: 10 },
-        // { color: 1, name: 'name4', count: 4, id: 11 },
-        // { color: 1, name: 'name4', count: 4, id: 12 },
-        // { color: 1, name: 'name4', count: 6, id: 12 },
-        // { color: 1, name: 'name4', count: 7, id: 12 },
-        // { color: 1, name: 'name4', count: 8, id: 12 },
-        // { color: 1, name: 'name4', count: 10, id: 12 },
       ],
       colorList: TYPE_COLOR_LIST,
       currentId: this.indexId,
@@ -102,13 +94,17 @@ export default {
     }
   },
   mounted() {
-    let menuListRect = this.$refs.menuList.getBoundingClientRect()
-    let { top, bottom, left, right } = menuListRect
-    this.menuRect = { top, bottom, left, right }
-    let layoutRect = this.$refs.listLayout.getBoundingClientRect()
-    this.listLayout.bottom = layoutRect.bottom
+    this.initMenuRect()
+    this.$store.commit(MUTATION_SET_INCREMENT_ID, 7)
   },
   methods: {
+    initMenuRect() {
+      let menuListRect = this.$refs.menuList.getBoundingClientRect()
+      let { top, bottom, left, right } = menuListRect
+      this.menuRect = { top, bottom, left, right }
+      let layoutRect = this.$refs.listLayout.getBoundingClientRect()
+      this.listLayout.bottom = layoutRect.bottom
+    },
     onItemClicked(item) {
       this.currentId = item.id
     },
@@ -204,6 +200,9 @@ export default {
       if (currentId !== undefined) {
         this.currentId = currentId
       }
+    },
+    addType(item) {
+      this.list.push(item)
     }
   }
 }

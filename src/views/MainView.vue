@@ -1,18 +1,23 @@
 <template>
   <div class="main-container">
-    <menu-layout class="menu-container"/>
-    <div class="content-container">22</div>
+    <menu-layout class="menu-container" />
+    <div class="content-container">22---{{ incrementId }}</div>
   </div>
 </template>
 <script>
-import MenuLayout from "@/components/menu/MenuLayout.vue";
+import MenuLayout from '@/components/menu/MenuLayout.vue'
+import { mapState } from 'vuex'
 
 export default {
-  name: "MainView",
+  name: 'MainView',
   components: {
     MenuLayout
+  },
+  computed: {
+    ...mapState({
+      incrementId: (state) => state.type.incrementId
+    })
   }
 }
 </script>
-<style scoped>
-</style>
+<style scoped></style>
