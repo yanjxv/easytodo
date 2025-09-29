@@ -11,18 +11,29 @@
     <div ref="menuList">
       <!-- 使用 TransitionGroup 实现列表项的动画效果 -->
       <TransitionGroup name="list">
-        <div v-for="(item, index) in list" :key="item.id" :class="{'indicator-item': isShowIndicator(index)}" ref="items">
-          <type-item :name="item.name" :count="item.count"
-                     class="menu-item-layout" :class="{ 'item-selected': item.id === currentId}"
-                     @click="onItemClicked(item)"
-                     draggable="true"
-                     @drag="onDrag($event)"
-                     @dragstart="onDragStart($event, item, index)"
-                     @dragover.prevent="onDragOver($event, item, index)"
-                     @dragenter.prevent="onDragEnter($event, item, index)"
-                     @dragleave="onDragLeave($event, index)"
-                     @dragend="onDragEnd($event, index)" />
-           <!-- 底部指示器 -->
+        <div
+          v-for="(item, index) in list"
+          :key="item.id"
+          :class="{ 'indicator-item': isShowIndicator(index) }"
+          ref="items"
+        >
+          <type-item
+            :svg-name="`ic_type_white${item.svgIndex}`"
+            :color="`${colorList[item.colorIndex]}`"
+            :name="item.name"
+            :count="item.count"
+            class="menu-item-layout"
+            :class="{ 'item-selected': item.id === currentId }"
+            @click="onItemClicked(item)"
+            draggable="true"
+            @drag="onDrag($event)"
+            @dragstart="onDragStart($event, item, index)"
+            @dragover.prevent="onDragOver($event, item, index)"
+            @dragenter.prevent="onDragEnter($event, item, index)"
+            @dragleave="onDragLeave($event, index)"
+            @dragend="onDragEnd($event, index)"
+          />
+          <!-- 底部指示器 -->
           <div class="indicator bottom-indicator">
             <div class="indicator-circle"></div>
             <div class="indicator-line"></div>
@@ -33,13 +44,14 @@
   </div>
 </template>
 <script>
-import TypeItem from "@/components/menu/TypeItem.vue";
+import TypeItem from '@/components/menu/TypeItem.vue'
+import { TYPE_COLOR_LIST } from '@/components/menu/TypeDialogLayout.vue'
 
 // 这里和.menu-item-layout的高度保持同步
 const MENU_ITEM_HEIGHT = 36
 
 export default {
-  name: "TypeListLayout",
+  name: 'TypeListLayout',
   props: {
     // 默认选中的项目ID
     indexId: {
@@ -48,18 +60,18 @@ export default {
     }
   },
   components: {
-    TypeItem,
+    TypeItem
   },
   data() {
     return {
       list: [
-        { color: 1, name: 'name1', count: 2, id: 1 },
-        { color: 2, name: 'name2', count: 0, id: 2 },
-        { color: 4, name: 'name3', count: 1, id: 3 },
-        { color: 1, name: 'name4', count: 4, id: 4 },
-        { color: 1, name: 'name5', count: 4, id: 5 },
-        { color: 1, name: 'name6', count: 4, id: 6 },
-        { color: 1, name: 'xxx', count: 4, id: 7 },
+        { colorIndex: 1, svgIndex: 0, name: 'name1', count: 2, id: 1 },
+        { colorIndex: 7, svgIndex: 1, name: 'name2', count: 0, id: 2 },
+        { colorIndex: 4, svgIndex: 1, name: 'name3', count: 1, id: 3 },
+        { colorIndex: 1, svgIndex: 2, name: 'name4', count: 4, id: 4 },
+        { colorIndex: 1, svgIndex: 2, name: 'name5', count: 4, id: 5 },
+        { colorIndex: 1, svgIndex: 12, name: 'name6', count: 4, id: 6 },
+        { colorIndex: 10, svgIndex: 22, name: 'xxx', count: 4, id: 7 }
         // { color: 1, name: 'name4', count: 4, id: 8 },
         // { color: 1, name: 'name4', count: 4, id: 9 },
         // { color: 1, name: 'name4', count: 4, id: 10 },
@@ -70,9 +82,9 @@ export default {
         // { color: 1, name: 'name4', count: 8, id: 12 },
         // { color: 1, name: 'name4', count: 10, id: 12 },
       ],
+      colorList: TYPE_COLOR_LIST,
       currentId: this.indexId,
       isSelected: true, // 要么是选中、失去焦点
-
 
       isDraggingOut: true,
       isDragging: false,
@@ -136,11 +148,11 @@ export default {
       let insertIndex = this.overIndex
       if (moveIndex !== insertIndex) {
         const moveItem = this.list[moveIndex]
-        this.list.splice(moveIndex, 1);
+        this.list.splice(moveIndex, 1)
         if (moveIndex > insertIndex) {
           insertIndex++
         }
-        this.list.splice(insertIndex, 0, moveItem);
+        this.list.splice(insertIndex, 0, moveItem)
       }
       this.isDragging = false
       this.isDraggingOut = true
@@ -154,7 +166,7 @@ export default {
     onDrag(ev) {
       let { clientX, clientY } = ev
       if (clientX === 0 && clientY === 0) {
-        return;
+        return
       }
       if (clientX < this.menuRect.left || clientX > this.menuRect.right) {
         this.overIndex = -2
